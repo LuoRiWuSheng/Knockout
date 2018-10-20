@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+	<body>
+		<ul data-bind="foreach: { data: categories, as: 'category'}">
+			<li>
+				<ul data-bind="foreach: items">
+					<li>
+						<span data-bind="text: category.name"></span>:
+						<span data-bind="text: category.items"></span>
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<ul data-bind="foreach: { data: categories, as: 'category' }">
+			<li>
+				<ul data-bind="foreach: {data:items,as:'item'}">
+					<li>
+						<span data-bind="text: category.name"></span>:
+						<span data-bind="text: item"></span>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<script type="text/javascript" src="js/knockout.js"></script>
+		<script>
+		var viewModel = {
+			categories: ko.observableArray([
+				{ name: 'Fruit', items: ['Apple', 'Orange', 'Banana'] },
+				{ name: 'Vegetables', items: ['Celery', 'Corn', 'Spinach'] }
+			])
+		};
+		ko.applyBindings(viewModel);
+		</script>
+		
+		
+	</body>
+</html>

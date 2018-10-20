@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>数组类型数据的双向绑定</title>
+	</head>
+	<body>
+		<h3>先演示传统模式，使用JQuery来动态设置select的值</h3>
+		<select name="" id="userNameList">
+		</select>
+		<a href="#" id="showSelectValue">显示</a><strong id="selectValue"></strong>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/knockout.js"></script>
+	<script>
+		$(document).ready(function() {
+			
+			//建一个数组
+			var nameList = ["张三","李四","王武"];
+			//获取select标签
+			var userNameList = $("#userNameList");
+			
+			ReaderSelectOptions(nameList,userNameList);
+			
+			$("#showSelectValue").bind("click",function() {
+				var s = $("#selectValue");
+				s.html(userNameList.val());
+			});
+		});
+		
+		
+		function ReaderSelectOptions(datas,selectNode) {
+			var optionString = "";
+			for(var i in datas) {
+				optionString += "<option value="+datas[i]+">"+datas[i]+"</option>";
+			}
+			
+			selectNode.html(optionString);
+		}
+	</script>
+</html>

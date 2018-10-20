@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	
+	</style>
+
+</head>
+<body>
+	<table style="border: 1px solid #f90;">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>英文名</th>
+					<th>中文名</th>
+					<th>描述</th>
+				</tr>
+			</thead>
+			<tbody id="tabBody" data-bind="foreach:PlantsArray">
+				<tr>
+					<td data-bind="html:$index"></td>
+					<td data-bind="html:englishName"></td>
+					<td data-bind="html:(zhName=='第4项'?zhName+'<b>[家]</b>':zhName)"></td>
+					<td data-bind="html:descript"></td>
+				</tr>
+			</tbody>
+		</table>
+		<a href="#" data-bind="click:pushNew">新增</a>
+</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/knockout.js"></script>
+	
+	<script>
+		var plants = [
+				{id:"1",englishName:"1-1",zhName:"第一项",descript:"描述1"},
+				{id:"2",englishName:"2-1",zhName:"第2项",descript:"描述2"},
+				{id:"3",englishName:"3-1",zhName:"第3项",descript:"描述3"},
+				{id:"4",englishName:"4-1",zhName:"第4项",descript:"描述4"},
+				{id:"5",englishName:"5-1",zhName:"第5项",descript:"描述5"},
+				{id:"6",englishName:"6-1",zhName:"第6项",descript:"描述6"},
+				{id:"7",englishName:"7-1",zhName:"第7项",descript:"描述7"}
+			];
+
+		$(document).ready(function() {
+			var viewModel = function() {
+				this.PlantsArray = ko.observableArray(plants);
+				this.pushNew = function() {
+					this.PlantsArray.push({id:"8",englishName:"unknown",zhName:"未知",descript:"等待填充"});
+					console.log(plants);
+					//取消a标签的默认事件  防止页面发生滚动
+					return false;
+				};
+			};
+
+			var currentViewModel = new viewModel();
+
+			ko.applyBindings(currentViewModel);
+		});
+	</script>
+</html>

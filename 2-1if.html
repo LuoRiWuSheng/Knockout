@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+	<script type="text/javascript" src="js/knockout.js"></script>
+	<body>
+		<label><input type="checkbox" data-bind="checked: displayMessage" /> Display message</label>
+		
+		<div data-bind="if: displayMessage">Here is a message. Astonishing.</div>
+		<ul data-bind="foreach: planets">
+			<li>
+				Planet: <b data-bind="text: name"> </b>
+				<div data-bind="if: capital">
+					Capital: <b data-bind="text: capital.cityName"> </b>
+				</div>
+			</li>
+		</ul>
+		<hr style="border:5px solid red" />
+
+		 <h1 data-bind="text: city"> </h1> 
+		 <p data-bind="with: coords"> 
+		     Latitude: <span data-bind="text: latitude"> </span>, 
+		     Longitude: <span data-bind="text: longitude"> </span> 
+		 </p>
+			<hr style="border:5px solid red" />
+		 <h1 data-bind="text: city"> </h1> 
+		 <p> 
+		     Latitude: <span data-bind="text: coords.latitude"> </span>, 
+		     Longitude: <span data-bind="text: coords.longitude"> </span> 
+		 </p> 
+	</body>
+	<script type="text/javascript">
+	ko.applyBindings({
+		displayMessage: ko.observable(false),
+		planets: [
+			{ name: 'Mercury', capital: null },
+			{ name: 'Earth', capital: { cityName: 'Barnsley'} }
+		],
+
+		 city: "London",
+         coords: {
+             latitude: 51.5001524,
+             longitude: -0.1262362
+         }
+	});
+	</script>
+</html>

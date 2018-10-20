@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<h3>银行列表</h3>
+		<h4>
+			银行的编码；银行的名称；银行所对应的图片；银行是否被选中；银行是否被鼠标悬浮；银行对应的支付宝网银的编码；
+		</h4>
+		
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/knockout.js"></script>
+	<script src="js/knockout.validation.min.js"></script>
+	<script>
+		/*
+		 *	Id:
+		 * 	Name:		银行名称
+		 * 	BankCode
+		 * 	ClassName	表示银行相关的类   class
+		 * 	BankId		表示银行的编码
+		 * 	Support     表示是否支持储蓄卡和信用卡   只支持储蓄卡  则10；2者都支持 11
+		 * 	Selected	表示是否被选中   开始为flase
+		 * */
+		var BankList = {
+			{Id:1,Name:'中国工商银行1',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:2,Name:'中国工商银行2',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:3,Name:'中国工商银行3',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:4,Name:'中国工商银行4',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:5,Name:'中国工商银行5',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:6,Name:'中国工商银行6',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:7,Name:'中国工商银行7',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:8,Name:'中国工商银行8',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:9,Name:'中国工商银行9',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:10,Name:'中国工商银行10',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:11,Name:'中国工商银行11',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:12,Name:'中国工商银行12',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:13,Name:'中国工商银行13',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			
+			{Id:14,Name:'中国工商银行14',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:15,Name:'中国工商银行15',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:16,Name:'中国工商银行16',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+			{Id:17,Name:'中国工商银行17',BankCode:'A3115',ClassName:'gs',BankId:'ICBCB2C',Support:11,Selected:false},
+		};
+		
+		var CurrentBankSelected = function(BankDetail) {
+			var self = this;
+			this.Detail = BankDetail;
+			this.Selected = ko.observable(BankDetail.Selected);
+			this.Hover = ko.observable(false);		// 表示是否被悬浮   默认为不悬浮
+		}
+		
+		var viewModel = function() {
+			var self = this;
+			
+		}
+		
+		$(function() {
+			var currentViewModel = new BankList();
+			
+			ko.applyBindings(currentViewModel);
+		});
+	</script>
+</html>
+

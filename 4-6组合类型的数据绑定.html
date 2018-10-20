@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<h3>我们在拼接这个方法的时候，要注意，我们定义year,month,day是this.year = ko.observable("")，这其实返回给你的year是一个方法&lt;span data-bind="html:year()+'-'+month()+'-'+day()"&gt;&lt;/span&gt; 所以，要在拼接的后面加上括号</h3>
+	年：<input type="text" data-bind="value:year"><br>
+	月：<input type="text" data-bind="value:month"><br>
+	日：<input type="text" data-bind="value:day"><br>
+	拼接起来:<span data-bind="html:year()+'-'+month()+'-'+day()"></span>
+	<div>
+		KO提供了另外一种方式，当有多个日期时，避免这样重复的拼接字符串:<span data-bind="html:Date"></span>
+	</div>
+	<div>
+		当你需要日期有特定的格式时，可以这样:<strong data-bind="html:Date2"></strong> 
+	</div>
+	<div>
+		将日期放到文本输入框中:<input data-bind="value:Date3"></input> 
+	</div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/knockout.js"></script>
+<script>
+	$(document).ready(function() {
+		
+	});
+
+	var ViewModel = function() {
+		this.year = ko.observable("");
+		this.month = ko.observable("");
+		this.day = ko.observable("");
+
+		//组合类型的数据绑定
+		this.Date = ko.computed(function(){
+			return this.year()+'-'+this.month()+'-'+this.day();
+		},this);
+
+		this.Date2 = ko.computed(function(){
+			return this.year()+'年'+this.month()+'月'+this.day()+'日';
+		},this);
+
+
+		this.Date3 = ko.pureComputed({
+			//这里面是一个对象，作为参数
+			write:function(value) {
+				var indexOfYear = value.indexOf("年");
+				var indexOfMonth = value.indexOf("月");
+				var indexOfDay = value.indexOf("日");
+
+				// 赋值操作  上面只是拿到这个value对应的年这个字在字符串中第几位
+				// 字符换截取
+				this.year = value.substring(0,indexOfYear);
+				this.month = value.substring(indexOfYear+1,indexOfMonth);
+				this.day = value.substring(indexOfMonth+1,indexOfDay);
+
+			},
+			read:function() {
+				return this.year()+'年'+this.month()+'月'+this.day()+'日';
+			},
+			owner:this
+		});
+	};
+
+	var currentViewModel = new ViewModel();
+
+	ko.applyBindings(currentViewModel);
+</script>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>使用KO来绑定</title>
+	</head>
+	<body>
+		<div>用户名：<input type="text" id="userName" data-bind="value:UserName"/><br />
+		动态显示：<span id="show" data-bind="html:UserName"></span><br />
+		动态显示：<span id="show" data-bind="html:UserName"></span><strong>again</strong>
+		</div>
+		
+		
+		<span date-bind="text:personName"></span>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script type='text/javascript' src='js/knockout.js'></script>
+
+	<script>
+		$(document).ready(function() {
+			var ViewModel = function() {
+				var self = this;
+				//监听username的值，所有绑定这个的，都会监听
+				self.UserName = ko.observable("");
+			};
+			
+			//实例化一个viewModel
+			var currentViewModel = new ViewModel();
+			
+			ko.applyBindings(currentViewModel);
+		});
+		
+		
+		
+	</script>
+</html>

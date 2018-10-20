@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+	年：<input type="text" data-bind="value:year"><br>
+	月：<input type="text" data-bind="value:month"><br>
+	日：<input type="text" data-bind="value:day"><br>
+	拼接起来:<span data-bind="html:Date3"></span>
+	<div>
+		将日期放到文本输入框中:<input data-bind="value:Date3"></input> 
+	</div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/knockout.js"></script>
+<script>
+	var ViewModel = function() {
+		this.year = ko.observable("");
+		this.month = ko.observable("");
+		this.day = ko.observable("");
+
+		//组合绑定
+		this.Date3 = ko.computed(function(){
+			return this.year()+'年'+this.month()+'月'+this.day()+'日';
+		},this);
+		this.Date3 = ko.pureComputed({
+			write:function(value) {
+				var indexOfYear = value.indexOf("年");
+				var indexOfMonth = value.indexOf("月");
+				var indexOfDay = value.indexOf("日");
+				var year = value.substring(0,indexOfYear);
+
+				//判断 需要用户输入4位数字
+				if(!/^\d{4}$/.test(year)) {
+					alert("您输入的年份格式不正确,请输入阿拉伯数字");
+					return false;
+				}
+
+				this.year(year);
+				var month = value.substring(indexOfYear+1,indexOfMonth);
+				//这里其实是有问题的   2和9的组合，那会出现29月
+				if(!/^[0-2][0-9]/.test(month)) {
+					alert("请输入合法的月份");
+					return false;
+				}
+				this.month(month);
+				var day = value.substring(indexOfMonth+1,indexOfDay);
+				if(!/^[0-3][0-9]/.test(day)) {
+					alert("请输入合法的天数");
+					return false;
+				}
+				this.day(day);
+			},
+			read:function() {
+				return this.year() +"年"+ this.month()+"月"+ this.day()+"日";
+			},
+			owner:this
+		});	
+	};
+
+	var currentViewModel = new ViewModel();
+
+	ko.applyBindings(currentViewModel);
+</script>
+
+</html>

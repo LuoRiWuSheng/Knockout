@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/knockout.js"></script>
+		<script src="js/jquery.min.js"></script>
+	</head>
+
+	<body>
+		<form data-bind="submit: getTweets">
+			Twitter 帐号:
+			<input data-bind="value: twitterName" />
+			<button type="submit">注册</button>
+		</form>
+
+		<div data-bind="with: resultData">
+			<h3>当前国际时间<span data-bind="text: retrievalDate"> </span></h3>
+			<ol data-bind="foreach: topTweets">
+				<li data-bind="text: text"></li>
+			</ol>
+
+			<button data-bind="click: $parent.clearResults">清空帐号</button>
+		</div>
+		<script>
+			function AppViewModel() {
+				var self = this;
+				self.twitterName = ko.observable('@默认的');
+				self.resultData = ko.observable(); // 没有初始化
+				self.getTweets = function() {
+					var name = self.twitterName(),
+						simulatedResults = [{
+							text: name + ' 多美好的一天。'
+						}, {
+							text: name + ' Building some cool apps.'
+						}, {
+							text: name + ' Just saw a famous celebrity eating lard. Yum.'
+						}];
+					self.resultData({
+						retrievalDate: new Date(),
+						topTweets: simulatedResults
+					});
+				};
+				//
+				self.clearResults = function() {
+					self.resultData(undefined);// 直接干掉整个对象
+				}
+			}
+			
+			ko.applyBindings(new AppViewModel());
+		</script>
+	</body>
+</html>

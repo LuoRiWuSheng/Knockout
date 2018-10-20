@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/jquery.min.js"></script>
+		
+		<script src="js/knockout.js"></script>
+		<script src="js/knockout.validation.min.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<h3>需要引入必要的插件库，jQ可用，可不用，没有必然联系</h3>
+			<h3>其实所有的，都可以用一个正则去验证，既然这个validation插件提供了，就没去做那个复杂的，想着它底层的实现，必然是自己做了正则</h3>
+			<h3>有几个没做验证，其实原理一样的</h3>
+		</div>
+		不能为空：<input type="text" data-bind="value:empty" /><br /> 
+		电话：<input type="text" data-bind="value:tel" /><br />
+		最大数，最小数<input type="text" data-bind="value:range" /><br /> 
+		整数：<input type="text" data-bind="value: int" /><br /> 
+		<!--<input type="text" data-bind="value:" /><br /> 小数：-->
+		<!--<input type="text" data-bind="value:" /><br /> 只能是英文，数字，下划线
+		<input type="text" data-bind="value:" /><br />-->
+		日期：<input type="text" data-bind="value:data" /><br />
+		邮件：<input type="text" data-bind="value:email" /><br />
+		<input type="button" data-bind="click:save" value="保存"/>
+
+		<script>
+			$(function() {
+				var person = function() {
+					var self = this;
+					// 非空
+					self.empty = ko.observable().extend({
+						required: {
+							params: true,
+							message: "您输入的不能为空！"
+						}
+					});
+					// 非空 + 数字 + 范围
+					self.tel = ko.observable().extend({
+						required: true,
+						number: {
+							params: true,
+							message: "必须是合法的电话"
+						},
+						maxLength: {params: 11},
+						minLength: {params: 7,message: "最小长度为7位"}
+					});
+					// 非空 + 范围
+					self.range = ko.observable().extend({
+						required: {
+							params: true
+						},
+						min: { params: 1, message: "请输入大于1的整数" },
+            			max: { params: 100, message: "请输入小于100的整数" } // 当你不写这个message  它会有一个默认的
+					});
+					
+					self.int  = ko.observable().extend({
+						required :{
+							params: true,
+							message: "定制化-不能为空"
+						},
+						/*pattern: {
+							params: /^\d+[\.]?\d{0,2}$/g,
+							message: "必须是数字，并且最多两位小数！"
+						}*/
+						pattern: {
+							params: /^\d+$/g,
+							message: "必须是整数！"
+						}
+					}),
+					// 日期验证可能有问题  但是你可以用正则去搞
+					self.data = ko.observable().extend({
+						required: true,
+						date: {
+							params: true,
+							message: "日期格式不正确"
+						}
+					});
+					// 邮箱验证  是可用的
+					self.email = ko.observable().extend({
+						required: {
+							params: true,
+							message: "邮件地址不能为空"
+						},
+						email: {
+							params: true,
+							message: "邮箱格式不正确"
+						}
+					}),
+					
+					self.save = function() {
+						if(newPerson.isValid().length == 0) {
+							alert("ok");
+						} else {
+						newPerson.isValid.showAllMessages();
+						}
+					}
+				}
+
+				var newPerson = new person();
+				ko.applyBindings(newPerson);
+				newPerson.isValid =  ko.validation.group(newPerson);
+			});
+		</script>
+	</body>
+
+</html>

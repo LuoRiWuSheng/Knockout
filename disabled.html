@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<button id="btn">点击</button>
+	<table id="tBody">
+		<thead>
+			<tr>
+				<th>标题1</th>
+				<th>标题2</th>
+				<th>标题3</th>
+				<th>标题4</th>
+				<th>标题5</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>内容1</td>
+				<td>内容2</td>
+				<td>内容3</td>
+				<td>内容4</td>
+				<td>内容5</td>
+			</tr>
+			<tr>
+				<td>详情1</td>
+				<td>详情2</td>
+				<td>详情3</td>
+				<td>详情4</td>
+				<td>详情5</td>
+			</tr>
+			<tr>
+				<td>知道1</td>
+				<td>知道2</td>
+				<td>知道3</td>
+				<td>知道4</td>
+				<td>知道5</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+<script src="js/jquery.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$("#btn").click(function() {
+			var users = new Array();
+			//过滤掉了表头 从第2行开始遍历
+			$("#tBody tr:gt(0)").each(function() {
+				var tr = $(this);
+
+				//演示
+				var userInfo2 = {
+					number: tr.find("td").eq(0).text(),
+					name: tr.find("td").eq(1).text(),
+					state: tr.find("td").eq(2).text(),
+					icon: tr.find("td").eq(3).text(),
+					five: tr.find("td").eq(4).text()
+				};
+
+				//数组
+				var userInfo = tr.find("td").eq(3).text();
+				
+				
+				if(userInfo=="内容4") {
+					alert("找到了");
+				}
+				
+
+				// users.push(userInfo);
+			});
+
+			// alert(JSON.stringify(users));
+		});
+	});
+</script>
+</html>

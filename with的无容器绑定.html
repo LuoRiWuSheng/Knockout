@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/knockout.js"></script>
+		<script src="js/jquery.min.js"></script>
+	</head>
+	<body>
+		<h3>做到只循环内部的一部分，table的直接子集tr 也是类似的做法</h3>
+		<ul>
+			
+			<li data-bind="text:one"></li>
+			<!-- ko foreach:pageList-->
+			<li data-bind="text: p1"></li>
+			<li data-bind="text: p2"></li>
+			<li data-bind="text: p3"></li>
+			<!-- /ko-->
+			<li data-bind="text:two"></li>
+		</ul>
+		<script>
+			$(function() {
+				var obj = new viewModel();
+				ko.applyBindings(obj);
+				
+				obj.one("开头--这个只用了一次");
+				obj.two("末尾--这个只用了一次");
+				obj.pageList(list);
+			})
+			
+			function viewModel() {
+				var self = this;
+				self.one = ko.observable();
+				self.two = ko.observable();
+				
+				
+				self.pageList = ko.observableArray([]);
+			}
+			
+			var list = [
+				{"p1": "数据1","p2": "数据2","p3":"数据3"},
+				{"p1": "项-1","p2": "ee","p3":"项-3"},
+				{"p1": "额-a","p2": "数据2","p3":"额-c"}
+			]
+		</script>
+	</body>
+</html>

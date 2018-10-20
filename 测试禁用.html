@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jsknockout-3.4.2.debug.js"></script>
+	<script src="js/jquery.min.js"></script>
+</head>
+<body>
+	<a id="aim" href="javascript:void(0);" >1111</a>
+	<!-- <a href="javascript:void(0);"></a> -->
+	<a href="javascript:void(0);" id="change">111</a>
+	<script>
+		$(function() {
+			/*var i = 0;
+			var viewModel = {
+				state: ko.observable(true)
+				change: function() {
+					if(i%2 == 0) {
+						this.state(true);
+						i++;
+					} else {
+						this.state(false);
+						i++;
+					}
+				}				
+			}
+
+			ko.applyBindings(viewModel);*/
+			$("#aim").removeAttr("href").css("cursor", "not-allowed");
+			$('#aim').removeAttr('onclick');
+			$("#change").click(function() {
+				$("#aim").css({"href":"http:www.baidu.com","cursor":"default"});
+			});
+		});
+	</script>
+</body>
+</html>

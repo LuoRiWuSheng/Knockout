@@ -1,0 +1,43 @@
+<!doctype html>
+<html >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>
+		
+		</title>
+		<style>
+		.color1{color: red;}
+		.another{background-color: green;}
+		.my-fontSize{font-size: 50px;}
+		</style>
+	</head>
+	<body>
+		<h3>绑定css样式</h3>
+		<div data-bind="css:{color1:currentProfit()>0}">利润利润</div>
+		<div data-bind="css:{color1:currentProfit()>0,another:curBackground(),'my-fontSize':fontSize}">利润利润多个样式的绑定</div>
+	</body>
+	
+	<script type='text/javascript' src='js/knockout.js'></script>
+	<script>
+	
+	var  ViewModel = function(){
+				var self = this;
+			
+				self.currentProfit = ko.observable(15000);
+				self.curBackground = ko.observable(true);
+				self.fontSize = ko.observable(true);
+			};
+	var  currentViewModel = new ViewModel();
+	ko.applyBindings(currentViewModel);
+			
+			
+			
+			
+			
+			
+			
+			
+	</script>
+	
+</body>
+</html>

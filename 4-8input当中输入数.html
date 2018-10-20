@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<h3>这里可以实现，从输入框更新内容，然后会自动更新到上面的地方</h3>
+	Year: <input type="text" data-bind="value:Year"><br>
+	
+	Month:<input type="text" data-bind="value:Month"><br>
+	Day:<input type="text" data-bind="value:Day"><br>
+
+	date:<span data-bind="html:Date"></span><br>
+	<input type="text" data-bind="value:Date"><br>
+
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/knockout.js"></script>
+<script>
+	var viewModel = function() {
+		var self = this;
+		self.Year = ko.observable("");
+		self.Month = ko.observable("");
+		self.Day = ko.observable("");
+
+		self.Date = ko.computed(function(){
+			return self.Year()+"年"+self.Month()+"月"+self.Day()+"日";
+		},self);
+		self.Date = ko.pureComputed(
+		{
+			//这里的value，就是我们绑定到Input框<input type="text" data-bind="value:Date"><br>   输入框中输入的值
+			write:function(value) {
+				//通过找到分界的点，来确定下面我们要截取的位置
+				var indexOfYear = value.indexOf("年");
+				var indexOfMonth = value.indexOf("月");
+				var indexOfDay = value.indexOf("日");
+
+				self.Year (value.substring(0,indexOfYear));
+				self.Month(value.substring(indexOfYear+1,indexOfMonth));
+				self.Day(value.substring(indexOfMonth+1,indexOfDay));
+			},
+			read:function() {
+				return self.Year() +"年"+self.Month()+"月"+self.Day()+"日";
+			},
+			owner:self
+		}
+		);
+
+
+	};
+	var currentViewModel = new viewModel();
+	ko.applyBindings(currentViewModel);
+</script>
+</html>

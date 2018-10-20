@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/knockout.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<style>
+			table tr td {
+				border: 1px solid red;
+			}
+		</style>
+	</head>
+	<body>
+		<table>
+			<thead>
+				<tr>
+					<th>名称</th>
+					<th>序号</th>
+					<th>这里要Name,后台传的Code</th>
+					<th>单位</th>
+				</tr>
+			</thead>
+			<tbody data-bind="foreach:pageList">
+				<tr>
+					<td data-bind="text:name"></td>
+					<td data-bind="text:number"></td>
+					<td data-bind="text:code"></td>
+					<td data-bind="text:unit"></td>
+				</tr>
+			</tbody>
+		</table>
+		<div id="show">
+			
+		</div>
+		
+	</body>
+	
+	<script>
+		var arr = [
+			{"name": "张三","number": "1","code":1,"unit": "kg"},
+			{"name": "李四","number": "2","code":2,"unit": "cm"},
+			{"name": "王武","number": "13","code":4,"unit": "h"},
+			{"name": "早来","number": "4","code":3,"unit": "m"},
+			{"name": "早来","number": "4","code":1,"unit": "m"},
+			{"name": "早来","number": "4","code":2,"unit": "m"}
+		];
+		var checkItem = [
+			{"id":1,"name":"配方"},
+			{"id":2,"name":"辅料"},
+			{"id":3,"name":"基材"},
+			{"id":4,"name":"印子"}
+		];
+		
+		function viewModel() {
+			var self = this;
+			self.pageList = ko.observableArray([]);
+			self.alertTest = function() {
+				alert("测试");
+			}
+		}
+		
+		$(function() {
+			var currentViewModel = new viewModel();
+			
+			ko.applyBindings(currentViewModel);
+			// 模拟
+			/**
+			 	checkItem -- 是从数据库拿到的一个对比的List
+			 	arr -- 模拟后台返回的那种Code  你需要将Code转换成用户能够看的懂的中文
+			 * */
+			// js2层for循环实现
+			/*for(var i = 0; i<arr.length; i++) {
+				for(var j=0;j<checkItem.length;j++) {
+					if(checkItem[j].id == arr[i].code) {
+						arr[i].code = checkItem[j].name
+					}
+				}
+			}*/
+			
+			// jQuery实现
+			$.each(arr,function(index,ele) {
+				$.each(checkItem,function(i, data){
+					if(ele.code == data.id) {
+						ele.code = data.name;
+					}
+				})
+			})
+			currentViewModel.pageList(arr);
+			//currentViewModel.alertTest();
+			/*$.each(checkItem,function(index,data) {
+				
+				console.log(index);
+				console.log(data);
+				console.log("-----begin------");
+				
+				$.each(data,function(i,val) {
+					console.log(val);
+					
+				});
+				console.log("-----End----");
+			})*/
+			var testJson = {"one":"1","two":2,"three":"你好"};
+			$.each(testJson,function(key, data) {
+				console.log("key="+key+",value="+data);
+			});
+		});
+		
+	</script>
+</html>

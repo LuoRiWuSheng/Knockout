@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<p>这里有问题，有的时候我们要跳过数组中的一些元素，<b>此时这些元素已经被标示为删除???</b>，但并没有被真实删除，这些元素当我们使用foreach输出的时候是默认不显示的，如果我们想要这些元素显示的话，我们可以使用includeDestroyed这个选项，比如：</p>
+<p>怎么标记，然后为什么使用includeDestroyed: false，它还是会显示?</p>
+	<ul data-bind="foreach:{data:List,includeDestroyed: false}">
+		<li data-bind="text:name"></li>
+	</ul>
+</body>
+<script src="js/knockout.js"></script>
+<script>
+	function viewModel() {
+		var self = this;
+		self.List = ko.observableArray([
+			{name:"张三"},
+			{name:"李四"},
+			{name:"王武"}
+		]);
+	}
+	ko.applyBindings(new viewModel());
+</script>
+</html>

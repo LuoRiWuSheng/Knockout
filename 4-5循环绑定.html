@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<h3>首先，使用jQuery的方法，循环绑定表格中的每一项，输出,内容是通过字符串的拼接来完成</h3>
+		<table style="border: 1px solid #f90;">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>英文名</th>
+					<th>中文名</th>
+					<th>描述</th>
+				</tr>
+			</thead>
+			<tbody id="tabBody">
+				
+			</tbody>
+		</table>
+	</body>
+	<script src="js/knockout.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script>
+		var plants = [
+				{id:"1",englishName:"1-1",zhName:"第一项",descript:"描述1"},
+				{id:"2",englishName:"2-1",zhName:"第2项",descript:"描述2"},
+				{id:"3",englishName:"3-1",zhName:"第3项",descript:"描述3"},
+				{id:"4",englishName:"4-1",zhName:"第4项",descript:"描述4"},
+				{id:"5",englishName:"5-1",zhName:"第5项",descript:"描述5"},
+				{id:"6",englishName:"6-1",zhName:"第6项",descript:"描述6"},
+				{id:"7",englishName:"7-1",zhName:"第7项",descript:"描述7"}		
+			];
+			
+		/*
+		 * 作用：拼接一个字符串，并将该字符串绑定到table当中
+		 */
+		function ReaderPlants() {
+			var tabBody = $("#tabBody");
+			var plantsString = "";
+			for(var i in plants) {
+				plantsString +="<tr>";
+				plantsString +="<td>"+plants[i].id +"</td>";
+				plantsString +="<td>"+plants[i].englishName +"</td>";
+				plantsString +="<td>"+plants[i].zhName +"</td>";
+				plantsString +="<td>"+plants[i].descript +"</td>";
+				plantsString += "</tr>";
+			}
+
+			tabBody.html(plantsString);
+		}
+		
+		$(document).ready(function() {
+			ReaderPlants();
+		});
+	</script>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+	<body>
+		<p data-bind="css: { error: firstName.hasError }">
+			<input data-bind='value: firstName, valueUpdate: "afterkeydown"' />
+			<span data-bind='visible: firstName.hasError, text: firstName.validationMessage'> </span>
+		</p>
+		<p data-bind="css: { error: lastName.hasError }">
+			<input data-bind='value: lastName, valueUpdate: "afterkeydown"' />
+			<span data-bind='visible: lastName.hasError, text: lastName.validationMessage'> </span>
+		</p>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/knockout.js"></script>
+	<script>
+		
+		ko.extenders.required = function(target, overrideMessage) {
+			//console.log(overrideMessage);
+			//add some sub-observables to our observable
+			target.hasError = ko.observable();
+			target.validationMessage = ko.observable();
+			
+			// 定义验证的方法
+			function validate(newValue) {
+				console.log(newValue)
+				target.hasError(newValue ? false : true);
+				target.validationMessage(newValue ? "" : overrideMessage || "必填项");
+			}
+			
+			//初始化验证方法
+			validate(target());
+			
+			// 只要值改变，就验证
+			target.subscribe(validate);
+			
+			//return the original observable
+			return target;
+		};
+		
+		// 声明
+		function AppViewModel(first, last) {
+			this.firstName = ko.observable(first).extend({ required: "Please enter a first name" });
+			this.lastName = ko.observable(last).extend({ required: "" });
+		}
+		
+		ko.applyBindings(new AppViewModel("Bob","Smith"));
+			
+	</script>
+</html>

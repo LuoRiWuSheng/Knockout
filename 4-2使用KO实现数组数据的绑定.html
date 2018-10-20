@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<h3>使用KO实现数组数据的双向绑定</h3>
+		<h4>在KO中有专门绑定属性，值用来保存下拉选项选择的值，叫selectedOptions的</h4>
+		<ul>
+			<li>data-bind="options:userNameList定义数组数据</li>
+			<li>不需要定义onchange事件</li>
+		</ul>
+		<select name="" id="userNameList" data-bind="options:userNameList,selectedOptions:selectedUserName">
+			
+		</select>
+		<a href="#" id="showSelectValue">显示</a><strong id="selectValue" data-bind="html:selectedUserName"></strong>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/knockout.js"></script>
+	<script>
+		$(document).ready(function() {
+			
+			/*
+			 * 首先	定义viewmodel这个对象
+			 */
+			var viewModel = function() {
+				this.userNameList = ko.observableArray(["张三","李四","王武"]);
+				
+				//定义我们需要的属性  。这个属性selectedUserName，就是我们要看到的显示在strong中的值，我们只需要绑定strong即可
+				//这就取代了下面用jquery绑定strong的做法
+				this.selectedUserName = ko.observable();
+			};
+			
+			var currentViewModel = new viewModel();
+			
+			ko.applyBindings(currentViewModel);
+			
+			/*
+			 *	采用jQuery绑定下拉选项值的方法
+			 *	 
+			 */
+			
+			/*$("#showSelectValue").click(function() {
+				$("#selectValue").html($("#userNameList").val());
+			});
+			*/
+			
+			
+		});
+	</script>
+</html>

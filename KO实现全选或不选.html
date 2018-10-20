@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div>
+			<input type="checkbox" data-bind="checked: selectedAllProduce" /> Produce
+		</div>
+		<div data-bind="foreach: produce">
+			<input type="checkbox" data-bind="checkedValue: $data, checked: $parent.selectedProduce"/>
+			<span data-bind="text:$data"></span>
+		</div>
+
+		<div data-bind="foreach: produce">
+			<span data-bind="text:$index"></span>
+			<span data-bind="text:$data"></span>
+			&nbsp;
+		</div>
+		<script src="js/knockout.js"></script>
+		<script>
+			
+			function viewModel() {
+				var self = this;
+				self.produce = [ 'Apple', 'Banana', 'Celery', 'Corn', 'Orange', 'Spinach' ];
+				self.selectedProduce = ko.observableArray([ 'Corn', 'Orange' ]);
+				self.selectedAllProduce = ko.pureComputed({
+					read: function() {
+						return self.selectedProduce().length = self.produce.length; 
+					},
+					write: function(value) {
+						self.selectedProduce(value? self.produce.slice(0): []);
+					},
+					owner: self
+				});
+			}
+			
+			var currentViewModel = new viewModel();
+			ko.applyBindings(currentViewModel);
+		</script>
+
+	</body>
+</html>

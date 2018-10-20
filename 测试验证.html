@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+
+	<body>
+		<form action="#">
+			<p>Firstname:<input data-bind="value:Name"/></p>
+			<input type="submit" value="提交">
+		</form>
+	
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script type='text/javascript' src='js/knockout.js'></script>
+	<script src="js/knockout.validation.min.js"></script>
+	<script>
+		function MyViewModel() {
+			//this.firstName = ko.observable().extend({required:{message:'请输入您的邮箱'}})
+			this.Name = ko.observable("").extend({required:true,message:'as'});
+
+		}
+
+		
+		var currentViewModel = new MyViewModel();
+		ko.applyBindings(currentViewModel);
+		currentViewModel.errors = ko.validation.group(currentViewModel);
+
+	</script>
+
+</html>

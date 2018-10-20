@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.selfError {
+				background: red;
+			}
+		</style>
+	</head>
+	<body>
+		<form action="http://www.baidu.com" data-bind="submit:yanzheng">
+			<label>姓名：</label><input type="text" data-bind="value:Name"/><br />
+			
+			<label for="">邮箱正则校验：</label><input type="text" data-bind="value:Email2"/><br />
+			<label for="">地址：</label>
+			
+			<label for="">现在需要对表单做一个客户端的验证  需要引入KO的一个验证插件 validation；这只是验证。如果你还想信息继续跟随表单一起提交，需要一个return:true</label><br />
+			<input type="submit" value="提交" />
+		</form>
+		<div>现在是想把上面的那些提示信息，统一的呈现在一个区域内</div>		
+		<div>
+			错误信息1：<span data-bind="validationMessage:Name" class="selfError"></span><br />
+			错误信息2：<span data-bind="validationMessage:Email2" class="selfError"></span>
+		</div>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/knockout.js"></script>
+	<script src="js/knockout.validation.min.js"></script>
+	<script>
+		$(function() {
+			// 做validation的初始化配置  里面是一个json对象
+			ko.validation.configure({
+				registerExtender:true,	// 这个属性允许我们在ko.observable()后面直接接extend(),去绑定一个属性 比如：
+				// ko.observable({require:true});		这中间是一个json对象
+				// 下面这个  当你想将错误信息输出到别的地方，就需要返回false
+				insertMessages:false,
+				errorClass:'selfError'
+			});
+			
+			
+			var viewModel = function() {
+				var self = this;
+				// 英文的提示信息  默认提示信息  这里是不能为空的
+				self.Name = ko.observable("").extend({required:true});
+			
+				self.Email2 = ko.observable("").extend({required:{message:'您的邮箱地址为空'}}).extend({pattern:{message:'请输入正确的邮箱地址',params:'^([a-zA-Z0-9_-])+\@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$'}});
+				// 保存的是当前选中的市
+				self.City = ko.observable("");
+				// 保存的是当前选中的区
+				self.Area = ko.observable("");
+				
+				
+				//写一个验证的方法
+				self.yanzheng = function() {
+					//alert(1);
+					// errors是一个方法  一定要注意这个常犯的错误
+					if(self.errors().length>0) {
+						// 展示所有错误信息  这个errors就是下面的那个errors
+						self.errors.showAllMessages();
+						// 下面这句话就是  阻止表单的默认行为，已经产生错误，不能让其提交
+						return false;
+					} else {
+						// 进入到这儿，说明没错误
+						// 让表单执行提交操作
+						return true;
+					}
+					
+					return true;
+				};
+			}
+			var currentVeiwModel = new viewModel();
+				
+			ko.applyBindings(currentVeiwModel);
+			
+			// 将错误信息保存下来
+			currentVeiwModel.errors = ko.validation.group(currentVeiwModel);
+		});
+	</script>
+</html>

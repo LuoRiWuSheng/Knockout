@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+		<div>
+		<!-- <input data-bind="value:firstName"></input> -->
+		<p><input data-bind="value: myNumberOne" /> (只能填整数)</p>
+		<p><input data-bind="value: myNumberTwo" /> (四舍五入)</p>
+	</div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/knockout.js"></script>
+<script> 
+	function viewmodel(one,two) {
+
+		//this.firstName = ko.observable("Bob").extend({logChange: "first name"});
+		this.myNumberOne= ko.observable(one).extend({numeric:0});
+		this.myNumberTwo = ko.observable(two).extend({numeric:2});
+	}
+
+	/*ko.extenders.logChange = function(target,option) {
+		target.subscribe(function(newValue){
+			console.log(option+":"+ newValue);
+		});
+
+		return target;
+	}*/
+
+	// 这里的参数，第一个是ko对象自己   第二个是自定义的
+	ko.extenders.numeric = function(target,precision) {
+		var result = ko.pureComputed({
+	        read: target,  //always return the original observables value
+	        write: function(newValue) {
+	            var current = target(),
+
+            	// Math.pow(2,3)	返回2的3次幂  2*2*2 = 8
+            	// 第一次 10的0次幂为1
+            	// 第二个输入框 10的2次幂为roundingMultiplier=100
+                roundingMultiplier = Math.pow(10, precision),
+                // newValue 是当前输入框的内容  如果不是数字，就置为0
+                newValueAsNum = isNaN(newValue) ? 0 : +newValue,
+                // 经过转换的
+                valueToWrite = Math.round(newValueAsNum * roundingMultiplier) / roundingMultiplier;
+ 				
+	            //only write if it changed
+	            if (valueToWrite !== current) {
+	                target(valueToWrite);
+	            } else {
+	                //if the rounded value is the same, but a different value was written, force a notification for the current field
+	                if (newValue !== current) {
+	                    target.notifySubscribers(valueToWrite);
+	                }
+	            }
+	        }
+    	}).extend({ notify: 'always' });
+	}
+
+	ko.applyBindings(new viewmodel(221.2234, 123.4525));
+</script>
+
+</html>

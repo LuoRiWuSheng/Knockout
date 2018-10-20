@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+	<div data-bind="foreach:myObservableArray">
+		<b data-bind="html:name"></b>
+
+		<b data-bind="html:type"></b><br>
+	</div>
+	<h3>排序</h3>
+	<ul data-bind="foreach:number">
+		<li><strong data-bind="html:id"></strong><i data-bind="html:name"></i></li>
+	</ul>
+</body>
+
+<script src="js/knockout.js"></script>
+<script>
+	var viewModel = function() {
+		var self = this;
+		this.myObservableArray = ko.observableArray([
+			{name: "Bungle", type: "Bear" }, 
+			{name: "George", type: "Hippo" },
+			{name: "Zippy", type: "Unknown" }
+		]);
+
+		//alert(this.myObservableArray().length);
+		//alert(this.myObservableArray()[0]['name']);
+
+		this.myObservableArray.push({name:"夏麒麟",type:"男"});
+		//从后开始删除一条信息
+		//this.myObservableArray.pop();
+
+		this.myObservableArray.unshift({name:"jerry",type:"老鼠"});
+
+		//反转数组的顺序
+		this.myObservableArray.reverse();
+
+		//要是KO数组排序
+
+		this.number = ko.observableArray();
+		this.number.push(5,2,1,88,141);
+		//alert(this.number());
+		/*var arr = [];
+		arr.push(
+			this.number().sort(
+				function(a,b) {
+					return a-b>0?a:b;
+				}
+			)
+		);
+		alert(arr);*/
+
+
+		//移除所有的数组内的元素
+		//this.number.removeAll();
+	}
+
+	var currentViewMolde = new viewModel();
+	ko.applyBindings(currentViewMolde);
+</script>
+</html>

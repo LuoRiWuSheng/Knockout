@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<h4>做到选中的是A这个下拉选项，显示的是B这个选项</h4>
+		<select name="" id="select" data-bind="options:optionList,optionsText:'Key',optionsValue:'Value',selectedOptions:showOption">
+		</select>
+		<strong data-bind="html:showOption"></strong>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/knockout.js"></script>
+	<script>
+		$(document).ready(function() {
+			var viewModel = function() {
+				//定义一个对象数组
+				this.optionList = ko.observableArray([{Key:"张三",Value:"23"},{Key:"李四",Value:"22"},{Key:"王武",Value:"26"}]);
+				this.showOption = ko.observable();
+			}
+			
+			var currentViewModel = new viewModel();
+			
+			ko.applyBindings(currentViewModel);
+		});
+	</script>
+</html>

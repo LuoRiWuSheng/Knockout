@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<p>Enter a numeric value:<input data-bind="value: attemptedValue"/></p>
+		<div data-bind="visible: !lastInputWasValid()">That's not a number!</div>
+	</body>
+
+	<script type='text/javascript' src='js/knockout.js'></script>
+
+	<script>
+		
+		var ViewModel = function() {
+			this.acceptNumberValue = ko.observable(123);
+			this.lastInputWasValid = ko.observable(true);
+			this.attemptedValue = ko.computed({
+				read:this.acceptNumberValue,
+				write:function(value) {
+					if(isNaN(value)) {
+						this.lastInputWasValid(false);
+					} else {
+						this.lastInputWasValid(true);
+						this.acceptNumberValue(value);
+					}
+				},
+				owner:this
+			});
+			
+		};
+		
+		//实例化一个viewModel
+		var currentViewModel = new ViewModel();
+		
+		ko.applyBindings(currentViewModel);
+
+		
+		
+		
+	</script>
+</html>

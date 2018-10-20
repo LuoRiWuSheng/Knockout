@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<h4>多个事件的绑定,绑定多个事件，采用的是json的语法</h4>
+	<div>
+		<span id="countView" data-bind="html:currentIndex,style:{color:currentColor}">0</span>
+		<input type="button" id="countBtn" value="点击计数" data-bind="event:{click:countAdd,mouseover:btnOver,mouseout:btnOut}">
+	</div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/knockout.js"></script>
+<script>
+	//KO实现计数
+	var viewModel = function() {
+		var self = this;
+		self.currentIndex = ko.observable(0);
+		self.countAdd = function() {
+			var temp = self.currentIndex();
+			if(temp>=5) {
+				alert("您点击的次数超过5次，请稍后再试");
+				$("#countView").hide();
+				return false;
+			} else {
+				temp += 1;
+				self.currentIndex(temp);
+			}
+			
+		};
+
+		self.currentColor = ko.observable("black");
+		self.btnOver = function() {
+			self.currentColor("red");
+		};
+		self.btnOut = function() {
+			self.currentColor("black");
+		}
+
+	};
+
+	var currentViewModel = new viewModel();
+
+	ko.applyBindings(currentViewModel);
+</script>
+</html>

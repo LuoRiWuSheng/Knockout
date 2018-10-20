@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Document</title>
+	</head>
+	<body>
+		
+		<div data-bind="component:'messagerAndList'"></div>
+		<div data-bind="component:{name:'messagerAndList',params:'jerry'}"></div>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/knockout.js"></script>
+	<script>
+		ko.components.register(
+			'messagerAndList',{
+				viewModel:function(params) {
+					//可以在此，定义属性和方法
+					var self = this;
+					//文本框的内容，默认为空
+					self.message = ko.observable("");
+					//帐号人  默认为bob
+					self.account = ko.observable(params!=null?params:"bob");
+
+					//定义方法  说明：send方法，将用户输入的信息，填充到MessageList这个数组当中 push；添加完毕，清空Input中的值 
+					self.send = function() {
+						//message()这里是一个方法  不能直接写message
+						self.MessageList.push({acc:self.account(),mess:self.message()});
+						self.message("");
+					}
+					//信息数组
+					self.MessageList = ko.observableArray([]);
+				},
+				//template 就是我们自定义组件拼成的html字符串，这里决定了我们组件呈现的是什么样子的，是一个模版
+				template:'<input type="text" data-bind="value:message"><button data-bind="click:send">sendMessage</button><ul data-bind="foreach:MessageList"><li><p data-bind="html:acc"></p><b data-bind="html:mess"></b></li></ul>'
+			}
+		);
+		ko.applyBindings();
+
+		
+			
+
+		
+	</script>
+</html>

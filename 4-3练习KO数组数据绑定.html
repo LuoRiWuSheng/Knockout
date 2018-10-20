@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<select name="" id="select" data-bind="options:optionList,selectedOptions:showOption">
+		</select>
+		<strong data-bind="html:showOption"></strong>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/knockout.js"></script>
+	<script>
+		$(document).ready(function() {
+			var viewModel = function() {
+				this.optionList = ko.observableArray(["张三","王武","麻子"]);
+				this.showOption = ko.observable();
+			};
+			
+			var currentViewModel = new viewModel();
+			
+			ko.applyBindings(currentViewModel);
+		});
+	</script>
+</html>

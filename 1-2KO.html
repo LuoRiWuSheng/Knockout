@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+
+	<body>
+		<p>Firstname:<span data-bind="text: firstName"></span></p>
+		<p>Lastname:<span data-bind="text: lastName"></span></p>
+		<h2>Hello,<input data-bind="value: fullName"/>!</h2>
+		<span data-bind="text:fullName"></span>
+		<hr />
+		<p>Enter bid price:<input data-bind="value:formattedPrice" /></p>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script type='text/javascript' src='js/knockout.js'></script>
+	<script>
+		function MyViewModel() {
+			this.firstName = ko.observable('Planet');
+			this.lastName = ko.observable('Earth');
+			this.fullName = ko.computed({
+				read: function() {
+					return this.firstName() + ":" + this.lastName();
+				},
+				write: function(value) {
+					var lastSpacePos = value.lastIndexOf(":");
+					if(lastSpacePos > 0) {
+						this.firstName(value.substring(0, lastSpacePos));
+						this.lastName(value.substring(lastSpacePos + 1));
+					}
+				},
+				owner: this
+			});
+		}
+
+		var viewModel222 = function() {
+			var self = this;
+			self.firstName = ko.observable("夏");
+			self.lastName = ko.observable("麒麟");
+			self.fullName = ko.computed({
+				read: function() {
+					return self.firstName() + ":" + self.lastName();
+				},
+
+				write: function(value) {
+					var pos = value.indexOf(":");
+					//console.log(pos);
+					self.firstName(value.substring(0, pos));
+					self.lastName(value.substring(pos + 1));
+
+				},
+				owner: self
+			});
+			//
+			/*self.price = ko.observable("25.99");
+			self.formatPrice = ko.computed({
+				read:function() {
+					return'$'+self.price().toFixed(2);
+				},
+				write:function(value){
+		value=parseFloat(value.replace(/[^\.\d]/g,""));
+		this.price(isNaN(value)?0:value);
+			},
+				
+				owner:self
+			});*/
+			self.price = ko.observable(25.99);
+
+			self.formattedPrice = ko.computed({
+				read: function() {
+					return '$' + self.price().toFixed(2);
+				},
+				write: function(value) {
+					value = parseFloat(value.replace(/[^\.\d]/g, ""));
+					self.price(isNaN(value) ? 0 : value);
+				},
+				owner: self
+			});
+		}
+		//var currentViewModel = new viewModel();
+		var currentViewModel = new MyViewModel();
+		ko.applyBindings(currentViewModel);
+	</script>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<form action="">
+			<label>姓名：</label><input type="text" data-bind="value:Name"/><br />
+			<label for="">邮箱：</label><input type="text" data-bind="value:Email"/><br />
+			<label for="">地址：</label>
+			<select data-bind="options:CityList,optionsText:'name',optionsValue:'Code',value:City,optionsCaption:'请选择'"></select>
+			<select data-bind="options:currentArea,optionsText:'name',optionsValue:'Code',value:Area,optionsCaption:'请选择区县'">
+			</select>
+		</form>
+		<h3>options:CityList是绑定哪一个列表，是一个数组;optionsText:name,是下拉的值，要显示的是什么，这里要为name加单引号，表示是字符串，而非属性</h3>
+		<h3>optionsValue:'Code'就是options的属性value</h3>
+		<h3>value:city  这个表示  你选中一个选项后，我们将这个值绑定到city这个上  也就是你要获取当前的数据</h3>
+		<h3>optionsCaption: 这就表示默认值了，很好理解</h3>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/knockout.js"></script>
+	
+	<script>
+		$(function() {
+			var viewModel = function() {
+				var self = this;
+				self.Name = ko.observable("");
+				self.Email = ko.observable("");
+				// 保存的是当前选中的市
+				self.City = ko.observable("");
+				// 保存的是当前选中的区
+				self.Area = ko.observable("");
+				
+				self.CityList = ko.observableArray([
+					{name:"A市",Code:"1001"},
+					{name:"B市",Code:"1002"}
+				]);
+				
+				self.AreaList = ko.observableArray([
+					{name:"A市1区",Code:"1001001",CityCode:"1001"},
+					{name:"A市2区",Code:"1001002",CityCode:"1001"},
+					{name:"A市3区",Code:"1001003",CityCode:"1001"},
+					
+					{name:"B市1区",Code:"1002001",CityCode:"1002"},
+					{name:"B市2区",Code:"1003002",CityCode:"1002"},
+					{name:"B市3区",Code:"1004003",CityCode:"1002"}
+				]);
+				
+				//上面是所有的区  这是不合适的  
+				self.currentArea = ko.computed(function(){
+					// 使用KO提供的过滤方法
+					return ko.utils.arrayFilter(self.AreaList(),function(area){
+						return area.CityCode == self.City();
+					});
+					
+				},self);
+			}
+			var currentVeiwModel = new viewModel();
+				
+			ko.applyBindings(currentVeiwModel);
+		});
+	</script>
+</html>

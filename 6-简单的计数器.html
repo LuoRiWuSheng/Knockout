@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div>
+		<span id="countView" data-bind="html:currentIndex">0</span>
+		<input type="button" id="countBtn" value="点击计数" data-bind="click:countAdd">
+	</div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/knockout.js"></script>
+<script>
+	//jQuery实现计数
+	/*$(document).ready(function() {
+		var currentCount = 0;
+		$("#countBtn").click(function() {
+			currentCount ++;
+			$("#countView").html(currentCount);
+		});
+	});*/
+
+	//KO实现计数
+	var viewModel = function() {
+		var self = this;
+		self.currentIndex = ko.observable(0);
+		self.countAdd = function() {
+			var temp = self.currentIndex();
+			temp += 1;
+			self.currentIndex(temp);
+		}
+
+	};
+
+	var currentViewModel = new viewModel();
+
+	ko.applyBindings(currentViewModel);
+</script>
+</html>
